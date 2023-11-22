@@ -100,7 +100,7 @@ def fit_model_to_bhv_in_voxel(bhv_var, model_type):
         funcdir = HLTP.data_dir +'/sub' + "%02d" % sub + '/proc_data/func'
         img = nibabel.load(funcdir + '/' + bhv_var + 
                            '_by_resid_Baseline.nii.gz')
-        img = nilearn.image.smooth_img(img, 3)
+        img = nilearn.image.smooth_img(img, 5)
         group_data.append(img.get_fdata())
     
     # for each voxel test with mixed linear model
