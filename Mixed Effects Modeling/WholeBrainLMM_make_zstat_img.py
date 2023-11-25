@@ -103,8 +103,3 @@ for bhv_var in ['d', 'c', 'HR', 'FAR']:
     find_voxels_with_negtive_slopes(betas, CDT, fname)
 
 
-
-
-
-
-
