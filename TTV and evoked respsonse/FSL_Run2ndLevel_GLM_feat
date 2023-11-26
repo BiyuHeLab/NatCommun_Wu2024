@@ -1,0 +1,24 @@
+#!/bin/bash
+
+proj_dir="/isilon/LFMI/VMdrive/data/HLTP_fMRI"
+script_dir=/isilon/LFMI/VMdrive/YuanHao/AnalysisDirectory/HLTP_fMRI-Prestimulus-Activity/analysis/FSL
+
+#roi="Visual"
+roi=$1
+#subj=$2 
+
+for subj in 07 08 13 15 16 18 19 20 22 25 26 29 30 31 34 35 38;do
+
+	subj_dir=$proj_dir/sub$subj/proc_data/func
+
+	echo "####################################################################"		
+	echo "          RUN THE SECOND LEVEL ANALYSIS FOR SUBJECT $subj           "
+	echo "####################################################################"        
+	cp $script_dir/SecondLevel_High_vs_Low_CSFWM_template_new.fsf $script_dir/SecondLevel_High_vs_Low_template_sub${subj}_design.fsf
+	sed -i -e "s#SEED_ROI#${roi}#g" $script_dir/SecondLevel_High_vs_Low_template_sub${subj}_design.fsf
+	sed -i -e "s#SUBDIR#${subj_dir}#g" $script_dir/SecondLevel_High_vs_Low_template_sub${subj}_design.fsf
+		
+	feat $script_dir/SecondLevel_High_vs_Low_template_sub${subj}_design.fsf
+	#rm $script_dir/SecondLevel_High_vs_Low_template_sub${subj}_design.fsf
+done
+
