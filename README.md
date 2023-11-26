@@ -16,6 +16,21 @@ WholeBrainLMM_make_zstat_img.py - Transform the LMM statistics to z-stats map an
 
 RoiLMM_prestim_CategorizationAccuracy.py - ROI-based LMM assessing prestimulus activity's influence on category accuracy.
 
+### TTV and evoked response
+Make_sd_maps_based_on_mediansplit.py - mediansplit trials into two halves and compute sd at each voxel location across each trial group.   
+
+FSL_Evoked_by_prestim_GLM_JobList - execute 1st level GLM jobs
+
+FSL_Evoked_by_prestim_GLM_RunFSLFeat - Run 1st level (run-wise) GLM using FSL feat
+
+FSL_Evoked_by_prestim_GLM_template.fsf - Template for 1st level GLM specification
+
+FSL_2ndLevel_Evoked_by_prestim_GLM_template.fsf - Template for 2nd level (subject-level) GLM specification
+
+FSL_Run2ndLevel_GLM_feat - Run 2nd level GLM using FSL feat
+
+FSL_GroupInference_design.fsf - GLM specification for group inference for FSL feat
+
 ### SDT Simulation
 SDT_simulation.py - Simulation on how changes in trial-to-trial variability influence Signal Detection Theory (SDT) behavioral metrics.
 
