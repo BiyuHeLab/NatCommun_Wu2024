@@ -1,0 +1,28 @@
+#!/bin/bash
+#SBATCH --job-name=GLM_SUBNUM_BLOCKNUM
+#SBATCH --mail-type=FAIL
+#SBATCH --mail-user=yuanhao.wu@nyulangone.org
+#SBATCH --nodes=1
+#SBATCH --tasks-per-node=1
+#SBATCH --time=24:00:00
+#SBATCH --mem-per-cpu=32G
+
+
+
+#  #SBATCH --output=GLM_SUBNUM_BLOCKNUM_%j.log
+
+script_dir="/gpfs/home/wuy19/scripts/GLM"
+data_dir="/gpfs/home/wuy19/HLTP_fMRI/SUBNUM/BLOCKNUM"
+cd "/gpfs/home/wuy19/scripts/GLM"
+module load fsl/6.0.0
+echo "####################################################################"	
+echo "   Model specification and estimation for BLOCKNUM in SUBNUM        "
+echo "####################################################################"
+feat ./PreSeeds_GLM_SUBNUM_BLOCKNUM_design.fsf
+rm ./PreSeeds_GLM_SUBNUM_BLOCKNUM_design.fsf
+rm ./GLM_SUBNUM_BLOCKNUM
+#rm $data_dir/denoised_data.nii.gz
+#rm -r $data_dir/evs
+
+ 
+
