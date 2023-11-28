@@ -105,4 +105,4 @@ with open(DataDir + '/SeedROI_CategorizationAccuracy.pkl', 'wb') as f:
     pickle.dump(bhv_dict, f)   
     
 for roi in mask_names:
-     _,_, =  bhv_against_ROIActivity(roi)               
+     _,_, =  bhv_against_ROIActivity(bhv_dict,roi, n_subj, n_groups)               
