@@ -1,14 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Thu Sep 17 10:51:42 2020
+Created on Wed Feb 14 2024
 
-Prepare data for the main analysis on prestimulus activity's influence on
-perceptual behavior. 
-Extract data from a specific TR relative to the stimulus onset for each trial
-and concatenate them to one signle nifti file.  
-
-@author: podvae01, wuy19
+LMM on prestimulus head motion's influence on behavioral outcomes.
+We used the FSL mcflirt relative displacement from prestimulus TR to 
+prestimulus TR+1 as the measurement of head motion.
+  
+@author: wuy19
 """
 import sys
 import os
@@ -19,15 +18,11 @@ os.chdir(ProjDir)
 import warnings
 warnings.filterwarnings("ignore")
 
-
-
-
 import HLTP
 import numpy as np
 import pandas as pd
 import statsmodels.formula.api as smf
 import matplotlib.pyplot as plt
-import seaborn as sns
  
 data_dir = '/isilon/LFMI/VMdrive/data/HLTP_fMRI/'
 EVs = '/evs/visual_ev.txt'
@@ -72,7 +67,7 @@ for sub in HLTP.subjects:
         grouped_bhv_data.loc[len(grouped_bhv_data)] = new_row_data
         del group_df, bhv_data, new_row_data
     del block_N, subj_dir, bhv_subj, prestim_motion, sub   
-# %%
+# %% perform LMMs and plot the results 
 FigDir = '/isilon/LFMI/VMdrive/YuanHao/AnalysisDirectory/HLTP_fMRI-Prestimulus-Activity/figures'
 
 for bhv in bhv_vars:
