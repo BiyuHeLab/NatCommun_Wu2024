@@ -47,5 +47,5 @@ SL_Decoding_GroupLevel.py - Cluster inference at the group level.
   
 SL_Decoding_Create_Contrast_Mask.py - Generate a mask that includes only voxels showing significant decoding above chance.
 
-### Source Data
-Source data are available at [https://nyulangone-my.sharepoint.com/...](https://nyulangone-my.sharepoint.com/:f:/g/personal/yuanhao_wu_nyulangone_org/EvjGYXl2ovZHjW0uGB6vpGQBSfr4VAGVHi2Qk7sE5AGn4g?e=EPpsUS)
+### Data
+Source data and unthresholded statistical brain maps 
