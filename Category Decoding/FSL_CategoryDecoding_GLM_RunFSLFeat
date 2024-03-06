@@ -1,4 +1,11 @@
 #!/bin/bash
+
+# This Bash script executes the GLM specification and estimation on HPC
+# It is called and submitted by the JObList batch script.
+# The script loads the necessary FSL (FMRIB Software Library) module,
+# executes FSL feat using a GLM design file created in the JObList batch
+
+# Set parameters for HPC job submission
 #SBATCH --job-name=GLM_SUBNUM_BLOCKNUM
 #SBATCH --mail-type=FAIL
 #SBATCH --mail-user=yuanhao.wu@nyulangone.org
@@ -6,23 +13,27 @@
 #SBATCH --tasks-per-node=1
 #SBATCH --time=24:00:00
 #SBATCH --mem-per-cpu=32G
+#SBATCH --output=GLM_SUBNUM_BLOCKNUM_%j.log
 
 
-
-#  #SBATCH --output=GLM_SUBNUM_BLOCKNUM_%j.log
-
+# Set directory paths and load necessary modules
 script_dir="/gpfs/home/wuy19/scripts/GLM"
 data_dir="/gpfs/home/wuy19/HLTP_fMRI/SUBNUM/BLOCKNUM"
 cd "/gpfs/home/wuy19/scripts/GLM"
 module load fsl/6.0.0
+
+# Display information about the current job
 echo "####################################################################"	
 echo "   Model specification and estimation for BLOCKNUM in SUBNUM        "
 echo "####################################################################"
+
+# Run FSL feat with the specified GLM design file
 feat ./PreSeeds_GLM_SUBNUM_BLOCKNUM_design.fsf
+
+# Clean up temporary files and directories
 rm ./PreSeeds_GLM_SUBNUM_BLOCKNUM_design.fsf
 rm ./GLM_SUBNUM_BLOCKNUM
+
+# Uncomment the following lines if necessary to remove additional files
 #rm $data_dir/denoised_data.nii.gz
 #rm -r $data_dir/evs
-
- 
-
