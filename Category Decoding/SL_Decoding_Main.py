@@ -6,20 +6,31 @@ Created on Sun Oct 30 22:03:27 2022
 
 Perform Whole-brain searchlight decoding analysis to assess whether the amount
 of category-related information in any brain region changes with the
-prestimulus activity level of each specific ROI. 
-
+prestimulus activity level of each specific ROI.
+ 
 The train data were GLM beta estimates obtained from an independent localizer.
 The test data were GLM beta estimates obtained from the main task.
 
 Logistic regression was used as the classification model (c=1)
 
+Required inputs:
+    - Pre_' + Seed + '_trialnumber.pkl'  # dataframe containing the number of
+    trials for each condition (2 prestimulus levels x 4 object categories x 
+                               2 recognition outcomes + scrambled image).
+    - Beta estimates derived from the independent localizer run in T1 space
+    - Beta estimates from 'Pre_' + Seed + '_GLM.feat' in T1 space
+      
+Output:
+    Python object file in .pkl format for each prestimulus level/Seed ROI.
+    The output file contains the whol-brain decoding accuracy map for that condition.
+   
 @author: wuy19
 """
 
-# Determine the seed ROI and from what prestimulus activity condition the data
-# were extracted from.     
-Seed = 'mPFC'
-Prestim = 'high'
+# The seed ROI whose prestimulus activiy magnitude was used to median split trials
+Seed = 'mPFC' #['mPFC', 'OTC', 'Salience', 'RSC]
+# Determining which half of the data will be used for the test data 
+Prestim = 'high' # ['high', 'low']
 ###############################################################################
 
 
@@ -35,25 +46,28 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import make_pipeline
 
 ProjDir = '/isilon/LFMI/VMdrive/data/HLTP_fMRI/'
+AnalysisDir = '/isilon/LFMI/VMdrive/YuanHao/AnalysisDirectory/HLTP_fMRI-Prestimulus-Activity/'
 GLM = '/Pre_' + Seed + '_GLM.feat/stats/'
+
 # Get cope numbers representing recognized face, house, object, and animal
 # images in high and low prestimulus activity trials, respectively  
+
 if Prestim == 'high':
     cope_ind = [1,5,9,13] 
 elif Prestim == 'low':
      cope_ind = [3,7,11,15]
      
 
-# load the number of trials that went into each condition in each block in each subject  
-df = pd.read_pickle('/isilon/LFMI/VMdrive/YuanHao/HLTP_fMRI_Prestimulus/Pre_' + Seed + '_trialnumber.pkl')
+# Loading the number of trials that went into each condition in each block in each subject  
+df = pd.read_pickle(AnalysisDir + '/data/Pre_' + Seed + '_trialnumber.pkl')
 
-# Constrcut a classification model for SL decoding
+# Constrcuting a classification model for SL decoding
 model = make_pipeline(StandardScaler(), LogisticRegression(C = 1, 
                       multi_class = 'multinomial', solver = 'lbfgs',
                       class_weight='balanced', random_state=42)) 
 
 def decode_category(sub, cope_ind, model, Prestim, Seed): 
-    # Locate and load the traing data set (localizer data)  
+    # Locating and loading the traing data set (localizer data)  
     train_dir = HLTP.data_dir + '/sub' + "%02d" % sub       
     train_dir = train_dir + '/proc_data/func/loc/mvpa/loc_mvpa_GLM.feat/stats/'
     

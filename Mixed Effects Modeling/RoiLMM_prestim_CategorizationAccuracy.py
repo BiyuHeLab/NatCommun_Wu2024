@@ -3,12 +3,25 @@
 """
 Created on Sat Nov 25 11:18:50 2023
 
+- Extract prestimulus activity of each trial within each of the four ROIs
+(vmPFC, Visual, CO, RSC).
+- Divide trials into 5 groups based on each voxel's prestimlus activity magnitude.
+- Compute the categorization accuracy for each trial group
+- Average categorization accuracy across voxels within a given ROI
+
+
+Required input data:
+    4-D brain maps containing each trial's prestimlus activitiy in standard space.
+
+Output:
+    Source data and statistics shown in Fig 6
+
 @author: wuy19
 """
 
 import sys
 import os 
-ProjDir = ProjDir = '/isilon/LFMI/VMdrive/YuanHao/AnalysisDirectory/HLTP_fMRI-Prestimulus-Activity'
+ProjDir = '/isilon/LFMI/VMdrive/YuanHao/AnalysisDirectory/HLTP_fMRI-Prestimulus-Activity'
 sys.path.insert(0, ProjDir)
 os.chdir(ProjDir)
 

@@ -3,6 +3,23 @@
 """
 Created on Thu Apr 11 14:51:36 2019
 
+Performing group-level inference on a given ROI prestimulus activity
+level's on object decoding accuracy across the whole brain.
+    - Voxel-wise contrasting decoding accuracy maps derived from high and low
+    prestimulus activity trials.
+    - Cluster inference using Gaussian Random Field Theory as implemented in
+    FSL CLUSTER
+    
+Required input data:
+    - Subjects' whole-brain decodng accuracy maps in standard space
+    
+Output:
+    - Unthresholded statistical maps
+    - Cluster-corrected statistical maps
+    - cluster size .txt
+    - local maximum .txt
+    - cluster index .txt
+    
 @author: podvae01, wuy19
 """
 #######################
@@ -81,7 +98,7 @@ for effect in ['pos', 'neg']:
     est_out = est.run()
       
     cl = fsl.model.Cluster()
-    cl.inputs.threshold = z_score(0.005) # --thresh/-t
+    cl.inputs.threshold = z_score(0.01) # --thresh/-t
     cl.inputs.in_file = OutDir + 'SL_cross_' + seed + '_PE_imdiff_' + effect + '_nomask_3fwhm_zstat.nii.gz'
     cl.inputs.out_threshold_file = OutDir + 'SL_cross_' + seed + '_PE_imdiff_' + effect + '_nomask_3fwhm_CDT01_0025_thresh_zstat.nii.gz' # --othresh
     cl.inputs.out_index_file = OutDir + 'SL_cross_' + seed + '_PE_imdiff_' + effect + '_nomask_3fwhm_CDT01_0025_thresh_zstat_index.nii.gz' #-o / --oindex

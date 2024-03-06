@@ -4,10 +4,19 @@
 Created on Thu Sep 17 10:51:42 2020
 
 Prepare data for the main analysis on prestimulus activity's influence on
-perceptual behavior. 
+behavioral metrics. 
 Extract data from a specific TR relative to the stimulus onset for each trial
-and concatenate them to one signle nifti file.  
+and concatenate them to one signle nifti file.
 
+Output:
+    4-D brain maps for each subject, with the first three dimenstions represent
+    the dimensions of the 3D brain volume and the 4th dimension indicates the
+    number of completed trials.
+    Each brain volume contains the residuals estimated from a specific TR
+    relative to the stimulus onset.
+    e.g., ER_resid_Baseline1 indicates 1 TR before the stimulus onset 
+    native, highres T1, and standard space
+    
 @author: podvae01, wuy19
 """
 import sys
@@ -35,7 +44,8 @@ TRtimes = {'Baseline2':-2, 'Baseline1':-1,
 bhv_df = pd.read_pickle(HLTP.group_result + '/behavior/corrected_bhv_df.pkl')
 # %%
 def save_event_related_files(sub, funcdir, anatdir, targetdir, events_file, TRtimes, tag):
-
+    
+    # Locating the 4D residual brain maps 
     block_N = HLTP.get_block_numbers(sub)
     if tag == "resid":   
         block_files = [(funcdir + '/block' + str(b) + '/' + func_file_name)
@@ -43,17 +53,19 @@ def save_event_related_files(sub, funcdir, anatdir, targetdir, events_file, TRti
     else: 
         block_files = [(funcdir + '/block' + str(b) + '/block' + str(b) + 
                     '_preproc.feat/' + func_file_name) for b in block_N]
-    # Get simulus presentation triggers:
+    
+    # Extracting simulus presentation triggers:
     events = []
     for block in block_N:
         event_file = funcdir + '/block' + str(block) + events_file
         events.append(np.where(np.loadtxt(event_file))[0]) 
     
-    # Use a mask for brain voxels so we can save some analysis time    
-    if tag == 'full':
-        mask_file_name = 'divt1pd_brain_2mm_mask.nii'
-        mask_img = nibabel.load(anatdir + '/' + mask_file_name
-                            ).get_fdata().astype('bool')
+    # Using a whole-brain mask to exclude voxels outside the standard brain    
+    #if tag == 'full':
+    #    mask_file_name = 'divt1pd_brain_2mm_mask.nii'
+    #    mask_img = nibabel.load(anatdir + '/' + mask_file_name
+    #                        ).get_fdata().astype('bool')
+    
     # get data blocks
     # not sure this is efficient, think there was some nilearn builtin func
     block_ER_data = {key: [] for key in TRtimes.keys()}
@@ -88,46 +100,6 @@ def save_event_related_files(sub, funcdir, anatdir, targetdir, events_file, TRti
         else:
             HLTP.transform_to_standard(sub, ER_file)
    
-#def save_condition_average(sub, bhv_df, targetdir, TRtimes, tag):
-#    bhv_mask = (bhv_df.subject == sub) & (bhv_df.fMRI == True) 
-#    R = (bhv_df[bhv_mask].recognition == 1).values
-#    U = (bhv_df[bhv_mask].recognition == -1).values
-#    img_types = {'real':1, 'scra':0}
-#    for img_type in img_types:
-#        real = (bhv_df[bhv_mask].real == img_types[img_type]).values
-
-#        for key in TRtimes.keys():
-            # load fMRI data
-#            ER_file = 'ER_' + tag + '_' + key 
-#            img = nibabel.load(targetdir + '/' + ER_file + '.nii.gz'  )
-#            data = img.get_fdata()
-            
-            # save mean images for group analysis
-#            meanR = data[:, :, :, R & real].mean(axis = -1)
-#            meanU = data[:, :, :, U & real].mean(axis = -1)
-            #stdR = np.std(data[:, :, :, R & real], axis = -1)
-            #stdU = np.std(data[:, :, :, U & real], axis = -1)
-            
-#            new_img = nibabel.Nifti1Image(meanR, img.affine, img.header)
-#            nibabel.save(new_img, targetdir + '/' + ER_file + 'mean_R_' + img_type + '.nii.gz')
-            #nibabel.save(new_img, funcdir + '/' + ER_file + 'std_R_' + img_type + '.nii.gz')
-            
-#            new_img = nibabel.Nifti1Image(meanU, img.affine, img.header)
-#            nibabel.save(new_img, targetdir + '/' + ER_file + 'mean_U_' + img_type + '.nii.gz')
-            #nibabel.save(new_img, funcdir + '/' + ER_file + 'std_U_' + img_type + '.nii.gz')
-            
-            # transform the mean images to standard for group analysis
-#            if tag == 'resid':
-#                HLTP.transform2highres(sub, ER_file + 'mean_R_' + img_type, 'conditionsGLM.feat')
-#                HLTP.transform2highres(sub, ER_file + 'mean_U_' + img_type, 'conditionsGLM.feat')
-        
-#                HLTP.transform_to_standard(sub, ER_file + 'mean_R_' + img_type + '2highres')
-#                HLTP.transform_to_standard(sub, ER_file + 'mean_U_' + img_type + '2highres')
-#            else:
-#                HLTP.transform_to_standard(sub, ER_file + 'mean_R_' + img_type)
-#                HLTP.transform_to_standard(sub, ER_file + 'mean_U_' + img_type)
-                #HLTP.transform_to_standard(sub, ER_file + 'std_R_' + img_type)
-                #HLTP.transform_to_standard(sub, ER_file + 'std_U_' + img_type)
 
 def subj_proc(sub, func_file_name, events_file, TRtimes, bhv_df, tag):
     # Prepare and save peri-stimulus data for each subject

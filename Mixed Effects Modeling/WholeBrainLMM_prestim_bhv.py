@@ -3,10 +3,20 @@
 """
 Created on Mon Oct 19 16:02:43 2020
 
-Split trials into 5 groups based on the fMRI activity level before
-the stimulus onset (2 - 0 sec relative to the stimulus onsets). 
+- Split trials into n groups based on the fMRI activity magnitude before
+the stimulus onset (-2 - 0 sec relative to the stimulus onsets), separately for
+each voxel
+- Compute behavioral metrics (HR, FAR, d', and c) for each trial group,
+separately for each voxel.
+- For each voxel, fit a linear mixed-effect model to predict behavioral metrics
+based on the trial group.
 
-Fit linear model to predict perceptual behavior based on the trail group.
+Rwquired input data:
+    4-D residual maps
+    corrected_bhv_df.pkl (behavior log file)
+    
+Output:
+    whole-brain coefficient and p-value maps for each subject in .pkl format
 
 @author: podvae01, wuy19
 """
@@ -36,13 +46,15 @@ mask_img = nibabel.load(mask_fname)
 
 bhv_vars = ['HR', 'FAR', 'd', 'c']
 num_cores = multiprocessing.cpu_count()
+n_groups = 5
+
 # %%
 # this function calculate subject's behavioral variable within each group of 
 # trials according to prestimulus voxel amplitude
 
-def make_map_of_bhv_by_baseline(sub, key, bhv_df):
+def make_map_of_bhv_by_baseline(sub, key, bhv_df, n_groups):
 
-    group_percentile = np.arange(0., 100., 20)
+    group_percentile = np.arange(0., 100., 100/n_groups)
     bhv_subj = bhv_df[(bhv_df.subject == sub) & (bhv_df.fMRI == True)]
 
     # load fmri data
@@ -54,10 +66,10 @@ def make_map_of_bhv_by_baseline(sub, key, bhv_df):
     voxels = np.array(np.where(brain_mask))
     
     #initialize the array of behavioral variables to report
-    nan_arr = np.zeros((brain_mask.shape + (5,))) + np.nan
+    nan_arr = np.zeros((brain_mask.shape + (n_groups,))) + np.nan
     bhv_data = {}    
     for bhv_var in bhv_vars:
-        bhv_data[bhv_var] = nan_arr.copy()
+        bhv_data[bhv_var] = np.ones(5,)
 
     for v in range(len(voxels[1])):
         # for each voxel, split the trials in groups  
@@ -76,6 +88,11 @@ def make_map_of_bhv_by_baseline(sub, key, bhv_df):
         bhv_img = nibabel.Nifti1Image(bhv_data[vv], img.affine, img.header)
         nibabel.save(bhv_img, funcdir + '/' + vv + '_by_resid_Baseline.nii.gz')
 
+Parallel(n_jobs = num_cores)(delayed(make_map_of_bhv_by_baseline
+                                     )(sub, key, bhv_df, n_groups) 
+                             for sub in HLTP.subjects)   
+
+
 def missing_values(value_array):
    '''make sure the behavioral values are present in at least two groups 
    for at least 10 subjetcs. The reason for missing values is  
@@ -87,10 +104,10 @@ def missing_values(value_array):
        return False
    return True
 
-def fit_model_to_bhv_in_voxel(bhv_var, model_type):
+def fit_model_to_bhv_in_voxel(bhv_var, model_type, n_groups):
     '''fit linear model to predict behavior from prestim in each voxel, '''
     # load all behavior by group data 
-    n_subj = 25; n_groups = 5
+    n_subj = len(HLTP.subjects);
     subject = np.tile(np.arange(n_subj), (n_groups, 1)).T
     # the group number is defined by voxel magnitude percentile
     data_group = np.tile(np.arange(1, 1 + n_groups), (n_subj, 1)) 
@@ -99,7 +116,7 @@ def fit_model_to_bhv_in_voxel(bhv_var, model_type):
     for sub in HLTP.subjects:
         funcdir = HLTP.data_dir +'/sub' + "%02d" % sub + '/proc_data/func'
         img = nibabel.load(funcdir + '/' + bhv_var + 
-                           '_by_resid_Baseline.nii.gz')
+                           '_by_resid_Baseline_.nii.gz')
         img = nilearn.image.smooth_img(img, 5)
         group_data.append(img.get_fdata())
     
@@ -123,12 +140,12 @@ def fit_model_to_bhv_in_voxel(bhv_var, model_type):
               "group":data_group.flatten()[n]})
         if model_type == "LMM":    
             try:
-                model_Q = smf.mixedlm(bhv_var + "group", data = df,
+                model = smf.mixedlm(bhv_var + "~group", data = df,
                         groups = df["subject"], re_formula = "group").fit()        
                 p_vals[voxels[0, v], voxels[1, v],voxels[2, v]
-                       ] = model_Q.pvalues[1]
+                       ] = model.pvalues[1]
                 betas[voxels[0, v], voxels[1, v],voxels[2, v]
-                      ] = model_Q.params[1]
+                      ] = model.params[1]
             except:
                 pass
         elif model_type == "ANOVA":
@@ -149,5 +166,5 @@ def fit_model_to_bhv_in_voxel(bhv_var, model_type):
               + bhv_var + model_type + '_fwhm5')
 
 Parallel(n_jobs = num_cores)(delayed(fit_model_to_bhv_in_voxel
-                                     )(bhv_var, "LMM") 
+                                     )(bhv_var, "LMM", n_groups) 
                              for bhv_var in bhv_vars)            

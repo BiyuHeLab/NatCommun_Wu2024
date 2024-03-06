@@ -2,10 +2,15 @@
 # -*- coding: utf-8 -*-
 """
 Created on Wed Nov 22 14:39:40 2023
-Generate statistical maps (z-stat) from the whole-brain LMM on prestimulus
-activity's influence on perceptual behavior (c, d', HR, and FAR)
-Output:
-unthresholded and cluster corrected zstat map (p < 0.05, CDT: p < 0.01)
+Generate statistical maps (z-stat) from the whole-brain coeffient and p-value
+maps derived from "WholeBrainLMM_prestim_bhv.py " which performs LMMs assesing
+the prestimulus activity's influence on behavioral metrics (c, d', HR, and FAR)
+
+required input data:
+    .pkl files containing the LMM coefficient and p-value maps for each subject
+
+Output: 
+    Unthresholded and cluster corrected zstat map (p < 0.05, CDT: p < 0.01)
 
 @author: wuy19
 """
@@ -30,13 +35,13 @@ def z_score(pvalue):
 
 def cluster_correction_grf(p_val_map, fname, CDT):
     mask_fname ='/usr/local/fsl/data/standard/MNI152_T1_2mm_brain_mask.nii.gz'
-    #mask_img = nibabel.load(mask_fname)
+    mask_img = nibabel.load(mask_fname)
  
-    #z_val_map = z_score(p_vals)
-    #z_val_map = z_val_map * (mask_img.get_fdata() == 1) 
-    #zmap_img = image.new_img_like(mask_img, z_val_map)  
+    z_val_map = z_score(p_vals)
+    z_val_map = z_val_map * (mask_img.get_fdata() == 1) 
+    zmap_img = image.new_img_like(mask_img, z_val_map)  
     z_fname = fname + '_zstat.nii.gz'
-    #zmap_img.to_filename(z_fname)
+    zmap_img.to_filename(z_fname)
        
     est = fsl.model.SmoothEstimate()
     est.inputs.zstat_file = z_fname

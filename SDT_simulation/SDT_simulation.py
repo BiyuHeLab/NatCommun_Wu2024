@@ -3,6 +3,10 @@
 """
 Created on Sat Nov 25 12:29:42 2023
 
+Perform simulation on how criterion and sensitivy change withvarying trial-to-
+trial variability.
+
+
 @author: wuy19
 """
 
