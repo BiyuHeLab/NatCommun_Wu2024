@@ -5,13 +5,21 @@
 HLTP.py - General definitions, directories, and helper functions.
 
 ### Behavior
-Behavior_statistics.py -            Carry out statistical inferences on behhavioral metrics including hit rate, false alarm rat sensitivty,
-                                    criterion, and criterion.
+#### Behavior_statistics.py:
+- Perform statistical inference on behavioral metrics including hit rate, false alarm rate sensitivty, criterion, and categorization accuracy.
+- Output source data and statistics for Fig 1D-F.  
 
 ### Mixed Effects Modeling
-WholeBrainLMM_data_prep.py                  Extract BOLD activity within a specific time window relative to the stimulus onsets in each run and concatenate them into a single file.
+#### WholeBrainLMM_data_prep.py:
+- Extract GLM residuals within a specific TR relative to the stimulus onsets in each trial and concatenate them into a single file.
+- Output a 4D .nifti file containing residuals from a specific time point in each trial.   
 
-WholeBrainLMM_prestim_bhv.py                Fit Linear Mixed-Effects Models to assess prestimulus activity's effect on perceptual behavior across the whole brain.
+#### WholeBrainLMM_prestim_bhv.py:
+- Categorize trials to _n_ groups based on the prestimulus activity magnitude. This is done for each voxel separately.
+- Compute behavioral metrics for each trial group for each voxel and save the results.   
+- Fit Linear Mixed-Effects Models to assess prestimulus activity's effect on perceptual behavior across the whole brain.
+- Output whole-brain behavioral metric maps for each subject (available at ).
+- Ouput LMM coefficient and p-value maps for each behavioral metric. 
 
 WholeBrainLMM_make_zstat_img.py             Transform the LMM statistics to z-stats map and perform cluster inference.
 
