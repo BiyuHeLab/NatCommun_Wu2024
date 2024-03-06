@@ -21,9 +21,14 @@ HLTP.py - General definitions, directories, and helper functions.
 - Output whole-brain behavioral metric maps for each subject (available at ).
 - Ouput LMM coefficient and p-value maps for each behavioral metric. 
 
-WholeBrainLMM_make_zstat_img.py             Transform the LMM statistics to z-stats map and perform cluster inference.
-
-RoiLMM_prestim_CategorizationAccuracy.py    ROI-based LMM assessing prestimulus activity's influence on category accuracy.
+#### WholeBrainLMM_make_zstat_img.py:
+- Transform the LMM statistics maps to z-stat maps and perform cluster inference using Gaussian Random Field theory as implemented in FSL.
+- Output cluster-corrected statistical maps as shown in Fig 2B-C and Fig S3
+- Output un-thresholded statistical maps (available at )
+  
+#### RoiLMM_prestim_CategorizationAccuracy.py:
+- Perform LMM to assess how category accuracy change with varying prestimulus activity within different ROIs, respectively.
+- Ouput source data for Fig 6
 
 ### TTV and evoked response
 Make_sd_maps_based_on_mediansplit.py -      mediansplit trials into two halves and compute sd at each voxel location across each trial group.   
