@@ -18,7 +18,7 @@ HLTP.py - General definitions, directories, and helper functions.
 - Categorize trials to _n_ groups based on the prestimulus activity magnitude. This is done for each voxel separately.
 - Compute behavioral metrics for each trial group for each voxel and save the results.   
 - Fit Linear Mixed-Effects Models to assess prestimulus activity's effect on perceptual behavior across the whole brain.
-- Output whole-brain behavioral metric maps for each subject (available at ).
+- Output whole-brain behavioral metric maps for each subject (available at [Data/Linear Mixed Modeling] (https://github.com/BiyuHeLab/NatCommun_Wu2024/tree/main/Data/Linear%20Mixed%20Modeling)).
 - Output LMM coefficient and p-value maps for each behavioral metric. 
 
 #### WholeBrainLMM_make_zstat_img.py:
