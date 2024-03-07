@@ -76,7 +76,7 @@ HLTP.py - General definitions, directories, and helper functions.
 #### SL_Decoding_GroupLevel.py
 - Compare decoding accuracy maps between high and low prestimulus activity conditions at the group level. Cluster inference was performed using Gaussian Random field theory as implemented in FSL 
 - Output cluster-corrected statistical maps as shown in **Fig 5B** left panel. 
-- Un-thresholded statistical maps available at [../Searchlight Category Decoding] (/Searchlight Category Decoding)
+- Un-thresholded statistical maps available at [] Data/Searchlight Category Decoding
 
 ## Data
 **Source_data_Fig_1.xlsx:** Source data for **Fig 1D-F** and **Fig S1** <br>
