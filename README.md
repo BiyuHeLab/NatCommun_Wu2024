@@ -3,11 +3,13 @@
 ## Brief overview of analysis scripts
 
 HLTP.py - General definitions, directories, and helper functions.
+<br>
 
 ### Behavior
 #### Behavior_statistics.py:
 - Perform statistical inference on behavioral metrics including hit rate, false alarm rate sensitivity, criterion, and categorization accuracy.
 - Output source data and statistics for **Fig 1D-F**.
+<br>
 
 ### Mixed Effects Modeling
 #### WholeBrainLMM_data_prep.py:
