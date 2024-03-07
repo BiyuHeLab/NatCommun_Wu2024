@@ -19,7 +19,7 @@ HLTP.py - General definitions, directories, and helper functions.
 #### WholeBrainLMM_prestim_bhv.py:
 - Categorizes trials to _n_ groups based on the prestimulus activity magnitude. This is done for each voxel separately.
 - Computes behavioral metrics for each trial group for each voxel and saves the results.   
-- Fits linear mixed-effect models to assess prestimulus activity's effect on perceptual behavior across the whole brain.
+- Fits linear mixed-effect models (LMM) to assess prestimulus activity's effect on perceptual behavior across the whole brain.
 - Outputs whole-brain behavioral metric maps for each subject (available in the Data folder).
 - Outputs LMM coefficient and p-value maps for each behavioral metric. 
 
@@ -90,7 +90,7 @@ HLTP.py - General definitions, directories, and helper functions.
 ## Data
 **Source_data_Fig_1.xlsx:** Source data for **Fig 1D-F** and **Fig S1** <br>
 
-**Source_data_Fig_2.xlsx:** Source data for **Fig 2B-C** right panels <br>
+**Source_data_Fig_2.xlsx:** Source data for **Fig 2B-C** right panel <br>
 
 **Source_data_Fig_4.xlsx:** Source data for **Fig 4A** <br>
 
