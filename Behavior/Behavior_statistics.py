@@ -3,6 +3,16 @@
 """
 Created on Fri Jun 22 11:07:49                                          
 @author: podvae01, wuy19
+
+Compute group statistical tests for behavioral metrics including hit rate (HR),
+false alarm rate (FAR), sensitivity (d'), and criterion (c), and categorization accuracy.
+
+Required input data:
+    Mediansplit_df (Behavioral log files) 
+
+Output:
+    Source data and statistics for Fig 1D-F and Fig S1
+
 """
 
 import pandas as pd
