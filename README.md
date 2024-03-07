@@ -19,7 +19,7 @@ HLTP.py - General definitions, directories, and helper functions.
 #### WholeBrainLMM_prestim_bhv.py:
 - Categorizes trials to _n_ groups based on the prestimulus activity magnitude. This is done for each voxel separately.
 - Computes behavioral metrics for each trial group for each voxel and saves the results.   
-- Fits Linear Mixed-Effects Models to assess prestimulus activity's effect on perceptual behavior across the whole brain.
+- Fits linear mixed-effect models to assess prestimulus activity's effect on perceptual behavior across the whole brain.
 - Outputs whole-brain behavioral metric maps for each subject (available in the Data folder).
 - Outputs LMM coefficient and p-value maps for each behavioral metric. 
 
@@ -69,7 +69,7 @@ HLTP.py - General definitions, directories, and helper functions.
 
 ### Category Decoding
 #### FSL_CategoryDecoding_GLM_JobList
-- Prepares GLMs for Category decoding within high and low prestimulus activity trials and submit them as jobs to HPC SLURM scheduler. 
+- Prepares GLMs for Category decoding within high and low prestimulus activity trials and submits them as jobs to HPC SLURM scheduler. 
 #### FSL_CategoryDecoding_GLM_template.fsf
 - Template file for 1st level (single run) GLM specification and estimation  
 #### FSL_CategoryDecoding_GLM_RunFSLFeat.py
@@ -98,7 +98,7 @@ HLTP.py - General definitions, directories, and helper functions.
 
 **Source_data_Fig_6.xlsx:** Source data for **Fig 6** <br>
 
-**Linear Mixed-Effect Modeling (LMM):** Un-thresholded statistical maps for prestimulus activity's effect on behavioral metrics, respectively. Correspond to results shown in **Fig 2B-C** left panel, **Fig S3**
+**Linear Mixed-Effect Modeling (LMM):** Un-thresholded statistical maps for prestimulus activity's effect on different behavioral metrics, respectively. Correspond to results shown in **Fig 2B-C** left panel, **Fig S3**
 - **/sub#:** Subject-specific folder. Each folder contains four 4-D brain volumes, with each value indicating a behavioral metric calculated from one of the five trial groups based on that voxel's prestimulus activity magnitude, respectively. They serve as the input data for whole-brain LMM. <br>    
 
 **Trial-to-trial Variability:** Un-thresholded statistical maps for trial-to-trial variability at peri-stimulus periods conditioned by the magnitude of prestimulus activity in specific ROIs, respectively. Correspond to results shown in **Fig 3** and **Fig S4**.
