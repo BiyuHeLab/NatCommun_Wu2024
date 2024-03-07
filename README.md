@@ -7,7 +7,7 @@ HLTP.py - General definitions, directories, and helper functions.
 ### Behavior
 #### Behavior_statistics.py:
 - Perform statistical inference on behavioral metrics including hit rate, false alarm rate sensitivity, criterion, and categorization accuracy.
-- Output source data and statistics for **Fig 1D-F**.  
+- Output source data and statistics for **Fig 1D-F**.
 
 ### Mixed Effects Modeling
 #### WholeBrainLMM_data_prep.py:
@@ -18,17 +18,18 @@ HLTP.py - General definitions, directories, and helper functions.
 - Categorize trials to _n_ groups based on the prestimulus activity magnitude. This is done for each voxel separately.
 - Compute behavioral metrics for each trial group for each voxel and save the results.   
 - Fit Linear Mixed-Effects Models to assess prestimulus activity's effect on perceptual behavior across the whole brain.
-- Output whole-brain behavioral metric maps for each subject (available at [Data/Linear Mixed Modeling] (https://github.com/BiyuHeLab/NatCommun_Wu2024/tree/main/Data/Linear%20Mixed%20Modeling)).
+- Output whole-brain behavioral metric maps for each subject.
 - Output LMM coefficient and p-value maps for each behavioral metric. 
 
 #### WholeBrainLMM_make_zstat_img.py:
 - Transform the LMM statistics maps to z-stat maps and perform cluster inference using Gaussian Random Field theory as implemented in FSL.
 - Output cluster-corrected statistical maps as shown in **Fig 2B-C** and **Fig S3**
-- Output un-thresholded statistical maps (available at )
+- Output un-thresholded statistical maps.
   
 #### RoiLMM_prestim_CategorizationAccuracy.py:
 - Perform LMM to assess how category accuracy changes with varying prestimulus activity within different ROIs, respectively.
-- Output source data for Fig 6
+- Output source data for **Fig 6**.
+<br>
 
 ### TTV and evoked response
 #### Make_sd_maps_based_on_mediansplit.py:
@@ -53,11 +54,13 @@ HLTP.py - General definitions, directories, and helper functions.
 - Serve as input file for group inference as implemented in FSL feat FLAME1
 - Output group-level .gfeat folders containing statistical maps shown in **Fig S7**.
 - Un-thresholded statistical maps available at  
+<br>
 
 ### SDT Simulation
 #### SDT_simulation.py:                         
 - Simulate how SDT behavioral metrics change with varying trial-to-trial variability.
 - Output source data for **Fig 6** 
+<br>
 
 ### Category Decoding
 #### FSL_CategoryDecoding_GLM_JobList
@@ -76,7 +79,8 @@ HLTP.py - General definitions, directories, and helper functions.
 #### SL_Decoding_GroupLevel.py
 - Compare decoding accuracy maps between high and low prestimulus activity conditions at the group level. Cluster inference was performed using Gaussian Random field theory as implemented in FSL 
 - Output cluster-corrected statistical maps as shown in **Fig 5B** left panel. 
-- Un-thresholded statistical maps available at [Data/Searchlight Category Decoding](https://github.com/BiyuHeLab/NatCommun_Wu2024/tree/main/Data/Searchlight%20Category%20Decoding) 
+- Output Un-thresholded statistical maps.
+<br>
 
 ## Data
 **Source_data_Fig_1.xlsx:** Source data for **Fig 1D-F** and **Fig S1** <br>
