@@ -1,8 +1,15 @@
 # NatCommun_Wu2024
+This repository contains codes and scripts for reproduction of analyses and figures associated with the paper "Network mechanisms of ongoing brain activity’s influence on conscious visual perception" <br>
+
+Analysis was originally performed on a machine running RedHat v7.9 and Python 3.8 <br> 
+
+Codes were written by Yuan-hao Wu and Ella Podvalny
+
 
 ## Brief overview of analysis scripts
 
-HLTP.py - General definitions, directories, and helper functions.
+#### HLTP.py:
+- General definitions, directories, and helper functions.
 <br>
 
 ### Behavior
