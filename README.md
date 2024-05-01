@@ -1,10 +1,11 @@
 # NatCommun_Wu2024
 This repository contains codes and scripts for reproduction of analyses and figures associated with the paper "Network mechanisms of ongoing brain activity’s influence on conscious visual perception" <br>
 
-Analysis was originally performed on a machine running RedHat v7.9 and Python 3.8 <br> 
+Analysis was originally performed on a machine running RedHat Linux v7.9 and Python 3.8 <br> 
 
-Codes were written by Yuan-hao Wu and Ella Podvalny
-
+Codes were written by Yuan-hao Wu and Ella Podvalny 
+<br>
+<br>
 
 ## Brief overview of analysis scripts
 
