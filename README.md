@@ -45,18 +45,11 @@ Codes were written by Yuan-hao Wu and Ella Podvalny
 - Median splits trials into two halves based on the prestimulus activity magnitude in a given ROI
 - Computes across-trial standard deviation (SD) of peri-stimulus activity (-1 TR, 0 TR, 1 TR relative to stimulus onset) for each half.
 - Outputs peri-stimulus SD maps conditioned by prestimulus activity of specific ROIs, respectively.
-### TTV_ClusterInference:
+
+#### TTV_ClusterInference:
 - Performs group-level statistical comparisons between SD derived from high and low prestimulus activity trials.
 - Cluster inference performed using Gaussian Rando Field theory as implemented in FSL
 - Outputs cluster-corrected statistical maps as displayed in **Fig 3** and **Fig S6** and un-thresholded statistical maps (available in the Data folder).  
-<br>
-
-### SDT Simulation
-#### SDT_simulation.py:                         
-- Simulates how SDT behavioral metrics change with varying trial-to-trial variability.
-- Outputs source data for **Fig 4** (available in the Data folder).
-<br>
-
 #### FSL_Evoked_by_prestim_GLM_JobList 
 - Prepares GLMs for stimulus-evoked responses within high and low prestimulus activity trials and submit them as jobs to HPC SLURM scheduler.
 #### FSL_Evoked_by_prestim_GLM_template.fsf
@@ -73,6 +66,12 @@ Codes were written by Yuan-hao Wu and Ella Podvalny
 - GLM specification sheet for group inference
 - Serves as input file for group inference as implemented in FSL feat FLAME1
 - Outputs group-level .gfeat folders containing cluster-corrected statistical maps shown in **Fig S7** and un-thresholded statistical maps (available in the Data folder)  
+<br>
+
+### SDT Simulation
+#### SDT_simulation.py:                         
+- Simulates how SDT behavioral metrics change with varying trial-to-trial variability.
+- Outputs source data for **Fig 4** (available in the Data folder).
 <br>
 
 ### Category Decoding
@@ -93,7 +92,6 @@ Codes were written by Yuan-hao Wu and Ella Podvalny
 - Compares decoding accuracy maps between high and low prestimulus activity conditions at the group level. Cluster inference performed using Gaussian Random field theory as implemented in FSL 
 - Outputs cluster-corrected statistical maps as shown in **Fig 5B** left panel and un-thresholded statistical maps (available in the Data folder).
 <br>
-
 
 ## Data
 **Source_data_Fig_1.xlsx:** Source data for **Fig 1D-F** and **Fig S1** <br>
