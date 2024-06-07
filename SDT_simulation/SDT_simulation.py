@@ -3,11 +3,11 @@
 """
 Created on Sat Nov 25 12:29:42 2023
 
-Perform simulation on how criterion and sensitivy change withvarying trial-to-
+Perform simulation on how criterion and sensitivy change with varying trial-to-
 trial variability.
 
 Output:
-    data related to Fig 4
+    data and statistics related to Fig 4
     
 @author: wuy19
 """
@@ -15,6 +15,7 @@ Output:
 import numpy as np
 import pandas as pd
 from scipy import stats
+import statsmodels.api as sm
 
 DataDir = '/isilon/LFMI/VMdrive/YuanHao/AnalysisDirectory/HLTP_fMRI-Prestimulus-Activity/data'
 signal_mean = 1
@@ -64,3 +65,21 @@ for sd in sd_range:
                                   ignore_index= True)
     del data, df_tmp
     df_simulation.to_pickle(DataDir + '/SDT_simulation.pkl')
+# %% Perform linear regressions to assess the influence of SD on each
+# perceptula behavior
+df_simulation = pd.read_pickle(DataDir + '/SDT_simulation.pkl')
+
+for i, bhv in enumerate(['HR', 'FAR', 'c', 'dprime']):
+    group_mean = df_simulation.groupby('sd')[bhv].mean().values
+    std = df_simulation.groupby('sd')[bhv].std(ddof=1).values
+
+
+    x= df_simulation['sd'].values
+    y=df_simulation[bhv].values
+    x= sm.add_constant(x)
+
+    model = sm.OLS(y,x).fit()
+    predictions = model.predict(x)
+    print('*************************')
+    print(bhv)
+    print(model.summary())   
