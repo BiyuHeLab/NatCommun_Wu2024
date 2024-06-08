@@ -2,7 +2,10 @@
 # -*- coding: utf-8 -*-
 """
 Created on Tue Jun 20 09:55:03 2023
-This code generate Fig 4a using "Source_data_Fig_4.xlsx. 
+- This code outputs results on the left panel of Fig 4a using
+"Source_data_Fig_4.xlsx.
+- Need to set the paths to the downloaded Git repo folder and folder where the
+figures will be stored
 
 @author: wuy19
 """
@@ -13,7 +16,7 @@ import statsmodels.api as sm
 import matplotlib.pyplot as plt
 
 # Set paths
-root_dir = '/Users/yh520/NatCommun_Wu2024'
+root_dir = 'PATH TO THE GIT REPO'
 data_dir = os.path.join(root_dir, 'Data')
 fig_dir = os.path.join(root_dir, 'Figures')
 
@@ -74,7 +77,8 @@ def plot_behavior_metric(i, df, bhv, group_mean, std, model):
     plt.xlabel('SD of the response distributions (sigma)', fontsize= 7)
     plt.ylabel(xlabels[i], fontsize=7)
     plt.show()
-
+    return fig
+    
 def save_figure(fig, path):
     """Save the figure to a specified path."""
     fig.savefig(f'{path}.svg', bbox_inches='tight', dpi=600, transparent=True)
@@ -92,5 +96,5 @@ def main():
         y = df_simulation[bhv].values
             
         model = perform_ols_regression(x, y)
-        plot_behavior_metric(i, df_simulation, bhv, group_mean, std, model)
-        #save_figure(fig, fig_dir + '_' + bhv)
+        fig = plot_behavior_metric(i, df_simulation, bhv, group_mean, std, model)
+        save_figure(fig, 'SET THE PATH TOTHE FOLDER WHERE FIGURES WILL BE STORED')
